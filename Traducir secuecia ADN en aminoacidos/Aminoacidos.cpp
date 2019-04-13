@@ -6,8 +6,6 @@
 using namespace std;
 
 map<string, vector<string> > Cadena;
-map<string, vector<string> >:: iterator iteratorCadena;
-vector<string>:: iterator iteratorVector;
 
 void Insertar_aminoacido(){
     vector<string> F= {"TTT","TTC"};
@@ -62,9 +60,8 @@ void Insertar_aminoacido(){
 
 string TraducirAminoacidos(string seq){
 
-    for(iteratorCadena=Cadena.begin();iteratorCadena!=Cadena.end();iteratorCadena++){
-        //cout<<iteratorCadena->first<<endl;
-        iteratorVector=find(iteratorCadena->second.begin(),iteratorCadena->second.end(),seq);
+    for(auto iteratorCadena=Cadena.begin();iteratorCadena!=Cadena.end();iteratorCadena++){
+        auto iteratorVector=find(iteratorCadena->second.begin(),iteratorCadena->second.end(),seq);
         if(iteratorVector!=iteratorCadena->second.end()){
             return iteratorCadena->first;
         }
