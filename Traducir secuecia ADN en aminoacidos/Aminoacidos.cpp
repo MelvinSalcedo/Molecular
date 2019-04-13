@@ -1,10 +1,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <map>
 using namespace std;
 
-vector<pair<vector<string>,string>> Cadena;
+map<string, vector<string> > Cadena;
+map<string, vector<string> >:: iterator iteratorCadena;
+vector<string>:: iterator iteratorVector;
 
 void Insertar_aminoacido(){
     vector<string> F= {"TTT","TTC"};
@@ -31,41 +34,42 @@ void Insertar_aminoacido(){
     vector<string> G= {"GGT","GGC","GGA","GGG"};
 
 
-    Cadena.push_back(make_pair(F,"F"));
-    Cadena.push_back(make_pair(L,"L"));
-    Cadena.push_back(make_pair(W,"W"));
-    Cadena.push_back(make_pair(C,"C"));
-    Cadena.push_back(make_pair(Stop,"Stop"));
-    Cadena.push_back(make_pair(S,"S"));
-    Cadena.push_back(make_pair(Y,"Y"));
-    Cadena.push_back(make_pair(V,"V"));
-    Cadena.push_back(make_pair(P,"P"));
-    Cadena.push_back(make_pair(H,"H"));
-    Cadena.push_back(make_pair(Q,"Q"));
-    Cadena.push_back(make_pair(R,"R"));
-    Cadena.push_back(make_pair(I,"I"));
-    Cadena.push_back(make_pair(M,"M"));
-    Cadena.push_back(make_pair(T,"T"));
-    Cadena.push_back(make_pair(N,"N"));
-    Cadena.push_back(make_pair(K,"K"));
-    Cadena.push_back(make_pair(A,"A"));
-    Cadena.push_back(make_pair(D,"D"));
-    Cadena.push_back(make_pair(E,"E"));
-    Cadena.push_back(make_pair(G,"G"));
+    Cadena.insert(make_pair("F",F));
+    Cadena.insert(make_pair("L",L));
+    Cadena.insert(make_pair("W",W));
+    Cadena.insert(make_pair("C",C));
+    Cadena.insert(make_pair("Stop",Stop));
+    Cadena.insert(make_pair("S",S));
+    Cadena.insert(make_pair("Y",Y));
+    Cadena.insert(make_pair("V",V));
+    Cadena.insert(make_pair("P",P));
+    Cadena.insert(make_pair("H",H));
+    Cadena.insert(make_pair("Q",Q));
+    Cadena.insert(make_pair("R",R));
+    Cadena.insert(make_pair("I",I));
+    Cadena.insert(make_pair("M",M));
+    Cadena.insert(make_pair("T",T));
+    Cadena.insert(make_pair("N",N));
+    Cadena.insert(make_pair("K",K));
+    Cadena.insert(make_pair("A",A));
+    Cadena.insert(make_pair("D",D));
+    Cadena.insert(make_pair("E",E));
+    Cadena.insert(make_pair("G",G));
 
 
 }
 
 
 string TraducirAminoacidos(string seq){
-    for(int x=0;x<Cadena.size();x++){
-        for(int y=0;y<Cadena[x].first.size();y++){
-            vector<string> temp=Cadena[x].first;
-            if(temp[y]==seq){
-                return Cadena[x].second;
-            }
+
+    for(iteratorCadena=Cadena.begin();iteratorCadena!=Cadena.end();iteratorCadena++){
+        //cout<<iteratorCadena->first<<endl;
+        iteratorVector=find(iteratorCadena->second.begin(),iteratorCadena->second.end(),seq);
+        if(iteratorVector!=iteratorCadena->second.end()){
+            return iteratorCadena->first;
         }
     }
+
 }
 
 void desmenusar(string seq){
@@ -81,8 +85,10 @@ void desmenusar(string seq){
     }
 }
 int main(){
+
 	Insertar_aminoacido();
 	desmenusar("ATGGAAGTATTTAAAGCGCCACCTATTGGGATATAA");
+	//TraducirAminoacidos("TGG");
 
 
 }
