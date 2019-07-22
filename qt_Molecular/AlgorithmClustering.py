@@ -53,6 +53,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Qmeans.clicked.connect(self.Kmeans)
         self.DbScan.clicked.connect(self.DBscan)
         self.Qmedois.clicked.connect(self.Kmedoids)    
+        self.path="Entrada/cerebro3.jpg"
         
     def actualizar(self):
         self.ImagenEntrada.setText("¡Acabas de hacer clic en el botón!")
@@ -60,33 +61,48 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def OpemImage(self):
         # Create widget
+        
+        
         label = QLabel(self)
-        pixmap = QPixmap('entrada.jpg')
+        pixmap = QPixmap(self.path)
+        
         self.ImagenEntrada.setPixmap(pixmap)
 
     def Kmeans(self):
+        
+        img = cv2.imread(self.path,1)
+        img2 = cv2.resize(img,(256,256))
+        
+        image = img2.reshape(-1, img2.shape[-1])
+        cluster = Clustering(img2,image)
+        
         start = time.time()
-        img = cv2.imread("entrada.jpg",1)
-        image = img.reshape(-1, img.shape[-1])
-        cluster = Clustering(img,image)
         segmented_image = cluster.K_Means()
-        cv2.imwrite('KMeans.jpg',segmented_image)
-
+        end = time.time()
+        print(end - start)
+        
+        img2 = cv2.resize(segmented_image,(256,256))
+        cv2.imwrite('KMeans.jpg',img2)
         
         label = QLabel(self)
         pixmap = QPixmap('KMeans.jpg')
         self.EimagenSalida.setPixmap(pixmap)
-        end = time.time()
-        print(end - start)
+        
     
     def DBscan(self):
-        img = cv2.imread("entrada1.jpg",1)
-        image = img.reshape(-1, img.shape[-1])
-        cluster = Clustering(img,image)
-        segmented_image = cluster.DB_SCAN()
+        img = cv2.imread(self.path,1)
+        img2 = cv2.resize(img,(32,32))
         
-        img2 = cv2.resize(segmented_image,(256,256))
-        cv2.imwrite('DBSCAN.jpg',img2)
+        image = img2.reshape(-1, img2.shape[-1])
+        cluster = Clustering(img2,image)
+        
+        start = time.time()
+        segmented_image = cluster.DB_SCAN()
+        end = time.time()
+        print(end - start)
+        
+        img3 = cv2.resize(segmented_image,(256,256))
+        cv2.imwrite('DBSCAN.jpg',img3)
 
        
         
@@ -95,10 +111,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.EimagenSalida.setPixmap(pixmap)
         
     def Kmedoids(self):
-        img = cv2.imread("Kmedios.jpg",1)
-        image = img.reshape(-1, img.shape[-1])
-        cluster = Clustering(img,image)
+        img = cv2.imread(self.path,1)
+        
+        img2 = cv2.resize(img,(32,32))
+        
+        image = img2.reshape(-1, img2.shape[-1])
+        cluster = Clustering(img2,image)
+        start = time.time()
         segmented_image = cluster.K_MEDOIDS()
+        end = time.time()
+        print(end - start)
         
         img__ = cv2.imread("Kmedios.jpg",1)
         img2 = cv2.resize(img__,(256,256))

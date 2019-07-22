@@ -92,7 +92,8 @@ def kmedoids(dataset, k):
 
 
 def LLamar():
-    ImageSet,m,n=loadimage(r"entrada1.jpg")
+
+    ImageSet,m,n=loadimage(r"Entrada/cerebro1_32.jpg")
     best_cost, best_medoids_idx, best_medoids=kmedoids(ImageSet,4)
     print(best_cost)
     print(best_medoids_idx)
@@ -111,6 +112,5 @@ def LLamar():
 
     pic_new.save("Kmedios.jpg","JPEG")
     
-
 
 
